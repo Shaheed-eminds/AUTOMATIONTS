@@ -1,0 +1,76 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        id: tests
+        env:
+          BASE_URL: ${{ vars.BASE_URL }}
+        run: |
+          npx bddgen
+          npx playwright test
+
+      - name: Zip HTML report
+        if: always()
+        run: |
+          if [ -d "reports/html-report" ]; then
+            zip -r html-report.zip reports/html-report
+          else
+            echo "No HTML report directory found; skipping zip."
+          fi
+
+      - name: Upload HTML report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-html-report
+          path: reports/html-report
+          retention-days: 14
+
+      - name: Send email notification
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.office365.com
+          server_port: 587
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          from: ${{ secrets.MAIL_USERNAME }}
+          to: ${{ secrets.MAIL_RECIPIENTS }}
+          subject: "Playwright Tests ${{ steps.tests.outcome == 'success' && 'PASSED ✅' || 'FAILED ❌' }} - ${{ github.repository }} (${{ github.ref_name }})"
+          body: |
+            Playwright test run finished with status: ${{ steps.tests.outcome }}
+
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            Triggered by: ${{ github.actor }}
+            Run URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            The full HTML report is attached (zipped) and also available as a workflow artifact at the Run URL above.
+          attachments: html-report.zip
