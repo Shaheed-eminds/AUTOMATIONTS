@@ -1,0 +1,59 @@
+import { defineConfig, devices } from '@playwright/test';
+import { defineBddConfig } from 'playwright-bdd';
+import { env } from './src/config/env';
+
+const bddTestDir = defineBddConfig({
+  features: 'features/**/*.feature',
+  // pageFixtures.ts is included here (not just login.steps.ts) so bddgen
+  // picks up the custom `test` it exports — that's what gives BDD steps
+  // the same loginPage/dashboardPage fixtures as tests/login.spec.ts.
+  steps: ['src/steps/**/*.ts', 'src/fixtures/pageFixtures.ts'],
+});
+
+export default defineConfig({
+  testDir: './tests',
+  timeout: 45_000,
+  expect: {
+    // The public OrangeHRM demo can be genuinely slow under load — a longer
+    // assertion timeout absorbs that without masking real bugs.
+    timeout: 10_000,
+  },
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 1,
+  workers: process.env.CI ? 2 : undefined,
+  reporter: [
+    ['list'],
+    ['html', { outputFolder: 'reports/html-report', open: 'never' }],
+  ],
+  use: {
+    baseURL: env.baseUrl,
+    // Headed locally so you can watch the browser; CI stays headless (no display, faster).
+    // Override locally with `HEADLESS=true` (see the test:headless script) if you want a quick headless check.
+    headless: process.env.CI ? true : process.env.HEADLESS === 'true',
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    actionTimeout: 15_000,
+    navigationTimeout: 20_000,
+  },
+  projects: [
+    {
+      name: 'chrome',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
+    {
+      name: 'bdd',
+      testDir: bddTestDir,
+      use: { ...devices['Desktop Chrome'] },
+    },
+  ],
+});

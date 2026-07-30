@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm init *)",
+      "Bash(npm install *)",
+      "Bash(npx playwright *)",
+      "Bash(npm test *)",
+      "Bash(mkdir -p \"C:\\\\Users\\\\Shaheed.MD\\\\AutomationTS\\\\.vscode\")",
+      "Bash(npx bddgen *)",
+      "Bash(npm run *)",
+      "Bash(cross-env HEADLESS=true npx playwright test --project=bdd --workers=1)",
+      "Bash(HEADLESS=true npx playwright test --project=bdd --workers=1)",
+      "Bash(curl -sS -o /dev/null -w \"HTTP %{http_code}, total time %{time_total}s\\\\n\" https://opensource-demo.orangehrmlive.com/web/index.php/auth/login --max-time 15)",
+      "Bash(nslookup opensource-demo.orangehrmlive.com)",
+      "Bash(curl -sS -o /dev/null -w \"HTTP %{http_code}\\\\n\" https://www.google.com --max-time 10)",
+      "Bash(curl -sS -o /dev/null -w \"HTTP %{http_code}, time %{time_total}s\\\\n\" https://opensource-demo.orangehrmlive.com/web/index.php/auth/login --max-time 20)",
+      "Bash(npx tsc *)",
+      "Bash(curl -sS -o /dev/null -w \"HTTP %{http_code}, time %{time_total}s\\\\n\" https://opensource-demo.orangehrmlive.com/web/index.php/auth/login --max-time 15)",
+      "Bash(gh --version)",
+      "Bash(gh auth *)",
+      "PowerShell(gh --version)",
+      "Bash(git init *)",
+      "Bash(git branch *)",
+      "Bash(git add *)"
+    ]
+  }
+}
