@@ -3,5 +3,8 @@
   "playwright.showTrace": true,
   "typescript.tsdk": "node_modules/typescript/lib",
   "cucumberautocomplete.steps": ["src/steps/**/*.ts"],
-  "cucumberautocomplete.syncfeatures": "features/**/*.feature"
+  "cucumberautocomplete.syncfeatures": "features/**/*.feature",
+  "playwrightBdd.configPath": "playwright.config.ts",
+  "playwrightBdd.featureFolder": "features",
+  "playwrightBdd.stepsFolder": "src/steps"
 }

@@ -1,3 +1,7 @@
 {
-  "recommendations": ["ms-playwright.playwright", "alexkrechik.cucumberautocomplete"]
+  "recommendations": [
+    "ms-playwright.playwright",
+    "alexkrechik.cucumberautocomplete",
+    "rohitsakhawalkar.playwright-bdd-lens"
+  ]
 }

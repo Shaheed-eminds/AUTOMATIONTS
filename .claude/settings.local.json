@@ -21,7 +21,12 @@
       "PowerShell(gh --version)",
       "Bash(git init *)",
       "Bash(git branch *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(code --uninstall-extension cucumberopen.cucumber-official)",
+      "Bash(code --uninstall-extension lynxwall.cucumber-tsflow-vscode)"
     ]
   }
 }
