@@ -1,7 +1,4 @@
 Feature: Login
-  As a user of OrangeHRM
-  I want to log in with my credentials
-  So that I can access the dashboard
 
   Background:
     Given I am on the login page
@@ -10,10 +7,22 @@ Feature: Login
     When I log in with valid credentials
     Then I should see the dashboard
 
-  Scenario: Unsuccessful login with invalid credentials
-    When I log in with invalid credentials
+  Scenario Outline: Unsuccessful login with invalid credentials
+    When I log in with username "<username>" and password "<password>"
     Then I should see the error message "Invalid credentials"
 
-  Scenario: Validation error when credentials are left empty
-    When I log in with empty credentials
+    Examples:
+      | username     | password       |
+      | invalid_user | wrong_password |
+      | Admin        | wrongpassword  |
+      | random_user  | random_pass    |
+
+  Scenario Outline: Validation error when required fields are missing
+    When I log in with username "<username>" and password "<password>"
     Then I should see a required field validation error
+
+    Examples:
+      | username | password |
+      |          |          |
+      | Admin    |          |
+      |          | admin123 |

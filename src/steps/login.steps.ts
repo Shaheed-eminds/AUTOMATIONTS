@@ -18,12 +18,8 @@ When('I log in with valid credentials', async ({ loginPage }) => {
   await loginPage.login(users.standard.username, users.standard.password);
 });
 
-When('I log in with invalid credentials', async ({ loginPage }) => {
-  await loginPage.login(users.invalid.username, users.invalid.password);
-});
-
-When('I log in with empty credentials', async ({ loginPage }) => {
-  await loginPage.login('', '');
+When('I log in with username {string} and password {string}', async ({ loginPage }, username: string, password: string) => {
+  await loginPage.login(username, password);
 });
 
 Then('I should see the dashboard', async ({ dashboardPage, page }) => {
