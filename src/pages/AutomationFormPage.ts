@@ -13,70 +13,45 @@ export interface PersonalDetails {
   address: string;
 }
 
-const ALL_DAYS: Day[] = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
-/**
- * Covers the "Data Entry Form" widget on the public practice page
- * (testautomationpractice.blogspot.com/2018/09/automation-form.html).
- *
- * Note: the "Submit" button's onclick runs `calculateRange()`, a date-range
- * calculator that reads #start-date/#end-date and writes into #result — it
- * does not validate or submit the name/email/phone/address fields. That's a
- * quirk of the demo page, not a bug in this framework.
- */
 export class AutomationFormPage extends BasePage {
-  private readonly nameInput: Locator;
-  private readonly emailInput: Locator;
-  private readonly phoneInput: Locator;
-  private readonly addressInput: Locator;
-
-  private readonly maleRadio: Locator;
-  private readonly femaleRadio: Locator;
-
-  private readonly sundayCheckbox: Locator;
-  private readonly mondayCheckbox: Locator;
-  private readonly tuesdayCheckbox: Locator;
-  private readonly wednesdayCheckbox: Locator;
-  private readonly thursdayCheckbox: Locator;
-  private readonly fridayCheckbox: Locator;
-  private readonly saturdayCheckbox: Locator;
-
+  private readonly personalDetailFields: Record<PersonalDetailField, Locator>;
+  private readonly genderRadios: Record<Gender, Locator>;
+  private readonly dayCheckboxes: Record<Day, Locator>;
   private readonly countrySelect: Locator;
   private readonly colorsSelect: Locator;
   private readonly animalsSelect: Locator;
-
   private readonly startDateInput: Locator;
   private readonly endDateInput: Locator;
-
   private readonly submitButton: Locator;
   private readonly resultText: Locator;
 
   constructor(page: Page) {
     super(page);
-
-    this.nameInput = page.locator('#name');
-    this.emailInput = page.locator('#email');
-    this.phoneInput = page.locator('#phone');
-    this.addressInput = page.locator('#textarea');
-
-    this.maleRadio = page.locator('#male');
-    this.femaleRadio = page.locator('#female');
-
-    this.sundayCheckbox = page.locator('#sunday');
-    this.mondayCheckbox = page.locator('#monday');
-    this.tuesdayCheckbox = page.locator('#tuesday');
-    this.wednesdayCheckbox = page.locator('#wednesday');
-    this.thursdayCheckbox = page.locator('#thursday');
-    this.fridayCheckbox = page.locator('#friday');
-    this.saturdayCheckbox = page.locator('#saturday');
-
+    this.personalDetailFields = {
+      name: page.locator('#name'),
+      email: page.locator('#email'),
+      phone: page.locator('#phone'),
+      address: page.locator('#textarea'),
+    };
+    this.genderRadios = {
+      male: page.locator('#male'),
+      female: page.locator('#female'),
+    };
+    this.dayCheckboxes = {
+      sunday: page.locator('#sunday'),
+      monday: page.locator('#monday'),
+      tuesday: page.locator('#tuesday'),
+      wednesday: page.locator('#wednesday'),
+      thursday: page.locator('#thursday'),
+      friday: page.locator('#friday'),
+      saturday: page.locator('#saturday'),
+    };
     this.countrySelect = page.locator('#country');
     this.colorsSelect = page.locator('#colors');
     this.animalsSelect = page.locator('#animals');
-
     this.startDateInput = page.locator('#start-date');
     this.endDateInput = page.locator('#end-date');
-
     this.submitButton = page.locator('.submit-btn');
     this.resultText = page.locator('#result');
   }
@@ -85,87 +60,41 @@ export class AutomationFormPage extends BasePage {
     await this.goto(env.automationPracticeUrl);
   }
 
-  // --- Personal details --------------------------------------------------
-
-  async fillPersonalDetails(details: PersonalDetails): Promise<void> {
-    await this.nameInput.fill(details.name);
-    await this.emailInput.fill(details.email);
-    await this.phoneInput.fill(details.phone);
-    await this.addressInput.fill(details.address);
+  async fillPersonalDetails(details: Partial<PersonalDetails>): Promise<void> {
+    for (const [field, value] of Object.entries(details) as [PersonalDetailField, string][]) {
+      await this.personalDetailFields[field].fill(value);
+    }
   }
 
   async expectFieldValue(field: PersonalDetailField, value: string): Promise<void> {
-    await expect(this.fieldInput(field)).toHaveValue(value);
+    await expect(this.personalDetailFields[field]).toHaveValue(value);
   }
-
-  private fieldInput(field: PersonalDetailField): Locator {
-    if (field === 'name') return this.nameInput;
-    if (field === 'email') return this.emailInput;
-    if (field === 'phone') return this.phoneInput;
-    return this.addressInput;
-  }
-
-  // --- Gender --------------------------------------------------------------
 
   async selectGender(gender: Gender): Promise<void> {
-    await this.genderRadio(gender).check();
+    await this.genderRadios[gender].check();
   }
 
   async expectGenderSelected(gender: Gender): Promise<void> {
-    await expect(this.genderRadio(gender)).toBeChecked();
+    await expect(this.genderRadios[gender]).toBeChecked();
   }
-
-  private genderRadio(gender: Gender): Locator {
-    return gender === 'male' ? this.maleRadio : this.femaleRadio;
-  }
-
-  // --- Days of the week ------------------------------------------------------
 
   async selectDays(days: Day[]): Promise<void> {
     for (const day of days) {
-      await this.dayCheckbox(day).check();
+      await this.dayCheckboxes[day].check();
     }
   }
 
   async expectDaysChecked(days: Day[]): Promise<void> {
     for (const day of days) {
-      await expect(this.dayCheckbox(day)).toBeChecked();
+      await expect(this.dayCheckboxes[day]).toBeChecked();
     }
   }
 
   async expectDaysUnchecked(days: Day[]): Promise<void> {
     for (const day of days) {
-      await expect(this.dayCheckbox(day)).not.toBeChecked();
+      await expect(this.dayCheckboxes[day]).not.toBeChecked();
     }
   }
-
-  /** Checks that exactly `days` are checked, and every other day of the week is not. */
-  async expectOnlyDaysChecked(days: Day[]): Promise<void> {
-    await this.expectDaysChecked(days);
-    const otherDays = ALL_DAYS.filter((day) => !days.includes(day));
-    await this.expectDaysUnchecked(otherDays);
-  }
-
-  private dayCheckbox(day: Day): Locator {
-    switch (day) {
-      case 'sunday':
-        return this.sundayCheckbox;
-      case 'monday':
-        return this.mondayCheckbox;
-      case 'tuesday':
-        return this.tuesdayCheckbox;
-      case 'wednesday':
-        return this.wednesdayCheckbox;
-      case 'thursday':
-        return this.thursdayCheckbox;
-      case 'friday':
-        return this.fridayCheckbox;
-      case 'saturday':
-        return this.saturdayCheckbox;
-    }
-  }
-
-  // --- Country, colors, animals (dropdowns) -----------------------------
 
   /** `country` is the option's visible label, e.g. "India". */
   async selectCountry(country: string): Promise<void> {
@@ -182,8 +111,7 @@ export class AutomationFormPage extends BasePage {
   }
 
   async expectColorsSelected(colors: string[]): Promise<void> {
-    const selected = await this.selectedOptionValues(this.colorsSelect);
-    this.expectSameValues(selected, colors);
+    await this.expectSelectedValues(this.colorsSelect, colors);
   }
 
   /** `animals` are option values, e.g. ["lion", "fox"] (lowercase, as in the option markup). */
@@ -192,23 +120,21 @@ export class AutomationFormPage extends BasePage {
   }
 
   async expectAnimalsSelected(animals: string[]): Promise<void> {
-    const selected = await this.selectedOptionValues(this.animalsSelect);
-    this.expectSameValues(selected, animals);
+    await this.expectSelectedValues(this.animalsSelect, animals);
   }
 
-  private async selectedOptionValues(select: Locator): Promise<string[]> {
-    return select.evaluate((element: HTMLSelectElement) =>
-      Array.from(element.selectedOptions).map((option) => option.value)
-    );
+  // selectOption's array order (or the DOM's option order) doesn't have to
+  // match the caller's order, so compare sorted sets rather than relying on
+  // toHaveText's element-order matching.
+  private async expectSelectedValues(select: Locator, expected: string[]): Promise<void> {
+    await expect
+      .poll(async () =>
+        (
+          await select.evaluate((el: HTMLSelectElement) => Array.from(el.selectedOptions).map((o) => o.value))
+        ).sort()
+      )
+      .toEqual([...expected].sort());
   }
-
-  // Multi-select option order doesn't have to match the order values were
-  // passed in, so compare sorted copies instead of the arrays directly.
-  private expectSameValues(actual: string[], expected: string[]): void {
-    expect([...actual].sort()).toEqual([...expected].sort());
-  }
-
-  // --- Date range and submit ----------------------------------------------
 
   /** `start`/`end` are ISO dates (yyyy-mm-dd), matching the native date inputs' format. */
   async setDateRange(start: string, end: string): Promise<void> {
