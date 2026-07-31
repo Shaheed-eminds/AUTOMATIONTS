@@ -2,9 +2,9 @@
   "playwright.reuseBrowser": true,
   "playwright.showTrace": true,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cucumberautocomplete.steps": ["src/steps/**/*.ts"],
+  "cucumberautocomplete.steps": ["steps/**/*.ts"],
   "cucumberautocomplete.syncfeatures": "features/**/*.feature",
   "playwrightBdd.configPath": "playwright.config.ts",
-  "playwrightBdd.featureFolder": "features",
-  "playwrightBdd.stepsFolder": "src/steps"
+  "playwrightBdd.featureFolder": "features/ui",
+  "playwrightBdd.stepsFolder": "src/pages"
 }

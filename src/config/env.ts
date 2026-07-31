@@ -13,4 +13,10 @@ export const env = {
     username: process.env.STANDARD_USERNAME ?? 'Admin',
     password: process.env.STANDARD_PASSWORD ?? 'admin123',
   },
+  // Absolute URL: this page lives on a different domain than `baseUrl` above,
+  // so AutomationFormPage.open() navigates to it directly rather than via
+  // Playwright's baseURL-relative goto.
+  automationPracticeUrl:
+    process.env.AUTOMATION_PRACTICE_URL ??
+    'https://testautomationpractice.blogspot.com/2018/09/automation-form.html',
 };

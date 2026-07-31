@@ -1,6 +1,7 @@
 import { test as base } from 'playwright-bdd';
 import { LoginPage } from '../pages/LoginPage';
 import { DashboardPage } from '../pages/DashboardPage';
+import { AutomationFormPage } from '../pages/AutomationFormPage';
 import { WindowManager } from '../utils/WindowManager';
 import { FrameManager } from '../utils/FrameManager';
 
@@ -14,6 +15,7 @@ import { FrameManager } from '../utils/FrameManager';
 type Pages = {
   loginPage: LoginPage;
   dashboardPage: DashboardPage;
+  automationFormPage: AutomationFormPage;
   windowManager: WindowManager;
   frameManager: FrameManager;
 };
@@ -24,6 +26,9 @@ export const test = base.extend<Pages>({
   },
   dashboardPage: async ({ page }, use) => {
     await use(new DashboardPage(page));
+  },
+  automationFormPage: async ({ page }, use) => {
+    await use(new AutomationFormPage(page));
   },
   windowManager: async ({ page, context }, use) => {
     await use(new WindowManager(context, page));

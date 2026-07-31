@@ -26,7 +26,28 @@
       "Bash(git remote *)",
       "Bash(git push *)",
       "Bash(code --uninstall-extension cucumberopen.cucumber-official)",
-      "Bash(code --uninstall-extension lynxwall.cucumber-tsflow-vscode)"
+      "Bash(code --uninstall-extension lynxwall.cucumber-tsflow-vscode)",
+      "WebSearch",
+      "WebFetch(domain:marketplace.visualstudio.com)",
+      "Bash(code --install-extension rohitsakhawalkar.playwright-bdd-lens)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(echo \"exit:$?\")",
+      "PowerShell(winget --version)",
+      "PowerShell(winget install --id GitHub.cli -e --source winget --scope user --accept-package-agreements --accept-source-agreements)",
+      "Read(//c//**)",
+      "PowerShell($env:PATH = [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"Machine\"\\); gh --version)",
+      "Bash(kill -9 %1)",
+      "PowerShell($env:PATH += \";C:\\\\Users\\\\Shaheed.MD\\\\AppData\\\\Local\\\\Microsoft\\\\WinGet\\\\Packages\\\\GitHub.cli_Microsoft.Winget.Source_8wekyb3d8bbwe\\\\bin\"; gh auth status)",
+      "Bash(grep -v \"^\\\\./\\\\.git/\")",
+      "Bash(git mv *)",
+      "Bash(pandoc -t markdown \"C:\\\\Users\\\\Shaheed.MD\\\\Downloads\\\\EM Associate Profile - Md Shaheed.docx\")",
+      "PowerShell(Get-Command pandoc -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command soffice -ErrorAction SilentlyContinue)",
+      "Bash(mkdir -p \"/c/Users/Shaheed.MD/AppData/Local/Temp/claude/C--Users-Shaheed-MD-AutomationTS/11b89d9e-248f-4d4f-9546-e8fd5ee420e2/scratchpad/profile_docx\")",
+      "Bash(unzip -o -q \"C:\\\\Users\\\\Shaheed.MD\\\\Downloads\\\\EM Associate Profile - Md Shaheed.docx\" -d \"/c/Users/Shaheed.MD/AppData/Local/Temp/claude/C--Users-Shaheed-MD-AutomationTS/11b89d9e-248f-4d4f-9546-e8fd5ee420e2/scratchpad/profile_docx\")",
+      "Read(//c/Users/Shaheed.MD/AppData/Local/Temp/claude/C--Users-Shaheed-MD-AutomationTS/11b89d9e-248f-4d4f-9546-e8fd5ee420e2/scratchpad/profile_docx/**)",
+      "Bash(HEADLESS=true npx playwright test --project=chrome --project=bdd)"
     ]
   }
 }

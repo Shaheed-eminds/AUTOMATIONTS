@@ -1,30 +1,39 @@
 # AutomationTS — Playwright + TypeScript UI Framework
 
-A reusable Page Object Model framework for testing the OrangeHRM demo
-(`https://opensource-demo.orangehrmlive.com`), built to be easy to extend
-for new pages and specs without touching existing code.
+A reusable Page Object Model framework covering two independent targets —
+the OrangeHRM demo (`https://opensource-demo.orangehrmlive.com`) for login,
+and the public data-entry practice form
+(`https://testautomationpractice.blogspot.com/2018/09/automation-form.html`)
+for form-control coverage — built to be easy to extend for new pages and
+specs without touching existing code.
 
 ## How it's organized
 
 ```
 src/
-  config/    env.ts        — single source of truth for env vars (BASE_URL, creds)
-  pages/     BasePage.ts    — shared behaviour (goto, waits) every page object extends
-             LoginPage.ts   — locators + actions for the login screen
-             DashboardPage.ts
+  config/    env.ts        — single source of truth for env vars (BASE_URL, creds, other target URLs)
+  pages/     BasePage.ts            — shared behaviour (goto, waits) every page object extends
+             LoginPage.ts           — locators + actions for the OrangeHRM login screen
+             DashboardPage.ts       — OrangeHRM post-login dashboard
+             AutomationFormPage.ts  — locators + actions/assertions for the practice data-entry form
   fixtures/  pageFixtures.ts — extends Playwright's `test` so specs receive
-                               `{ loginPage, dashboardPage }` ready-made
+                               `{ loginPage, dashboardPage, automationFormPage }` ready-made
   data/      users.ts       — named test data (standard user, invalid user)
   utils/     WindowManager.ts — tracks open tabs/windows for generic steps
              FrameManager.ts  — tracks current iframe scope for generic steps
-  steps/     login.steps.ts  — Given/When/Then for the login flow (page-object-backed)
-             common.steps.ts — generic click/fill/window/frame steps (selector-driven)
+steps/
+  ui/        login.steps.ts           — Given/When/Then for the login flow (page-object-backed)
+             automation-form.steps.ts — Given/When/Then for the data-entry form (page-object-backed)
+             common.steps.ts          — generic click/fill/window/frame steps (selector-driven)
+  hooks.ts   — reserved for global BDD Before/After hooks (none yet)
 tests/
   login.spec.ts             — plain-spec example using the fixtures above
+  automation-form.spec.ts   — plain-spec example for the data-entry form
 features/
-  login.feature             — Gherkin scenarios for the same login flow
+  ui/login.feature            — Gherkin scenarios for the OrangeHRM login flow
+  ui/automation-form.feature  — Gherkin scenarios for the data-entry form
 playwright.config.ts        — projects (chrome/firefox/webkit/bdd), reporters, timeouts
-.env / .env.example          — BASE_URL and credentials (never commit .env)
+.env / .env.example          — BASE_URL, credentials, AUTOMATION_PRACTICE_URL (never commit .env)
 ```
 
 **Why it's shaped this way:**
@@ -95,17 +104,18 @@ This is an additional, optional style on top of the same framework — use it
 when scenarios benefit from being readable by non-engineers, or keep writing
 plain `.spec.ts` files where Gherkin would just be ceremony. Both can coexist.
 
-1. Write (or extend) a `.feature` file under `features/`, e.g. `features/login.feature`:
+1. Write (or extend) a `.feature` file under `features/ui/` (or `features/api/`),
+   e.g. `features/ui/login.feature`:
    ```gherkin
    Scenario: Successful login with valid credentials
      Given I am on the login page
      When I log in with valid credentials
      Then I should see the dashboard
    ```
-2. Implement any new step in `src/steps/` (group by feature, e.g. `login.steps.ts`):
+2. Implement any new step in `steps/ui/` (group by feature, e.g. `login.steps.ts`):
    ```ts
    import { createBdd } from 'playwright-bdd';
-   import { test } from '../fixtures/pageFixtures';
+   import { test } from '../../src/fixtures/pageFixtures';
 
    const { Given, When, Then } = createBdd(test);
 
@@ -124,13 +134,13 @@ plain `.spec.ts` files where Gherkin would just be ceremony. Both can coexist.
    scenarios — nothing Cucumber-specific to configure.
 4. **VS Code:** install the recommended **Cucumber (Gherkin) Full Support**
    extension for `.feature` syntax highlighting and step autocomplete
-   (already wired to `src/steps/**/*.ts` in `.vscode/settings.json`). The
+   (already wired to `steps/**/*.ts` in `.vscode/settings.json`). The
    Playwright extension's green Run buttons work on the *generated* files in
    `.features-gen/` after a `bddgen` run, not on the `.feature` file itself.
 
 ### Generic steps (click, fill, windows, frames)
 
-[src/steps/common.steps.ts](src/steps/common.steps.ts) is a small library of
+[steps/ui/common.steps.ts](steps/ui/common.steps.ts) is a small library of
 selector-driven steps for any `.feature` file — use them for a one-off
 interaction that doesn't justify a dedicated page object yet. They're backed
 by two stateful helpers registered as fixtures in `pageFixtures.ts`:

@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
-import { test } from '../fixtures/pageFixtures';
-import { users } from '../data/users';
+import { test } from '../../src/fixtures/pageFixtures';
+import { users } from '../../src/data/users';
 
 /**
  * createBdd(test) ties Given/When/Then to the SAME fixtures used by the

@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
-import { test } from '../fixtures/pageFixtures';
+import { test } from '../../src/fixtures/pageFixtures';
 
 /**
  * Generic, selector-driven steps for actions that don't warrant a

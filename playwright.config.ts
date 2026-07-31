@@ -4,10 +4,10 @@ import { env } from './src/config/env';
 
 const bddTestDir = defineBddConfig({
   features: 'features/**/*.feature',
-  // pageFixtures.ts is included here (not just login.steps.ts) so bddgen
+  // pageFixtures.ts is included here (not just the step files) so bddgen
   // picks up the custom `test` it exports — that's what gives BDD steps
   // the same loginPage/dashboardPage fixtures as tests/login.spec.ts.
-  steps: ['src/steps/**/*.ts', 'src/fixtures/pageFixtures.ts'],
+  steps: ['steps/**/*.ts', 'src/fixtures/pageFixtures.ts'],
 });
 
 export default defineConfig({
