@@ -1,4 +1,6 @@
 import * as dotenv from 'dotenv';
+import * as path from 'path';
+import { pathToFileURL } from 'url';
 
 dotenv.config();
 
@@ -20,7 +22,10 @@ export const env = {
     process.env.AUTOMATION_PRACTICE_URL ??
     'https://testautomationpractice.blogspot.com/2018/09/automation-form.html',
   // Local file, same reasoning as automationPracticeUrl above — an absolute
-  // file:// URL, navigated to directly rather than via baseURL.
+  // file:// URL, navigated to directly rather than via baseURL. The file
+  // ships in this repo (apps/onboardly-app.html) so this path resolves the
+  // same way on any machine or CI runner, not just the original author's.
   onboardlyAppUrl:
-    process.env.ONBOARDLY_APP_URL ?? 'file:///C:/Users/Shaheed.MD/Downloads/onboardly-app.html',
+    process.env.ONBOARDLY_APP_URL ??
+    pathToFileURL(path.resolve(__dirname, '../../apps/onboardly-app.html')).href,
 };
