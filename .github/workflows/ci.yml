@@ -29,8 +29,6 @@ jobs:
 
       - name: Run Playwright tests
         id: tests
-        env:
-          BASE_URL: ${{ vars.BASE_URL }}
         run: |
           npx bddgen
           npx playwright test

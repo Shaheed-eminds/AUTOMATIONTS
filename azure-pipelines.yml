@@ -1,7 +1,5 @@
 # Mirrors .github/workflows/ci.yml — runs the BDD suite on push/PR to main.
 #
-# Before this pipeline works, set BASE_URL as a pipeline variable in the
-# Azure DevOps UI: Pipelines > Edit > Variables > New variable.
 # Email notification (the GitHub workflow's SMTP step) is intentionally
 # left out for now — can be added once the basic run is green.
 
@@ -35,7 +33,6 @@ steps:
       npx playwright test
     displayName: 'Run Playwright tests'
     env:
-      BASE_URL: $(BASE_URL)
       # playwright.config.ts picks headless mode off process.env.CI. GitHub
       # Actions sets that automatically; Azure Pipelines doesn't, so every
       # browser launch was trying to open headed with no display and dying

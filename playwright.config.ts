@@ -1,12 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
-import { env } from './src/config/env';
 
 const bddTestDir = defineBddConfig({
   features: 'features/**/*.feature',
   // pageFixtures.ts is included here (not just the step files) so bddgen
   // picks up the custom `test` it exports — that's what gives BDD steps
-  // the same loginPage/dashboardPage fixtures as tests/login.spec.ts.
+  // the same personalDetailsPage/jobDetailsPage/etc. fixtures as the plain specs.
   steps: ['steps/**/*.ts', 'src/fixtures/pageFixtures.ts'],
 });
 
@@ -14,8 +13,6 @@ export default defineConfig({
   testDir: './tests',
   timeout: 45_000,
   expect: {
-    // The public OrangeHRM demo can be genuinely slow under load — a longer
-    // assertion timeout absorbs that without masking real bugs.
     timeout: 10_000,
   },
   fullyParallel: true,
@@ -27,7 +24,6 @@ export default defineConfig({
     ['html', { outputFolder: 'reports/html-report', open: 'never' }],
   ],
   use: {
-    baseURL: env.baseUrl,
     // Headed locally so you can watch the browser; CI stays headless (no display, faster).
     // Override locally with `HEADLESS=true` (see the test:headless script) if you want a quick headless check.
     headless: process.env.CI ? true : process.env.HEADLESS === 'true',
