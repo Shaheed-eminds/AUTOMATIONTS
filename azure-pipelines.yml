@@ -1,0 +1,56 @@
+# Mirrors .github/workflows/ci.yml — runs the BDD suite on push/PR to main.
+#
+# Before this pipeline works, set BASE_URL as a pipeline variable in the
+# Azure DevOps UI: Pipelines > Edit > Variables > New variable.
+# Email notification (the GitHub workflow's SMTP step) is intentionally
+# left out for now — can be added once the basic run is green.
+
+trigger:
+  branches:
+    include:
+      - main
+
+pr:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+timeoutInMinutes: 30
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '20.x'
+    displayName: 'Set up Node.js'
+
+  - script: npm ci
+    displayName: 'Install dependencies'
+
+  - script: npx playwright install --with-deps
+    displayName: 'Install Playwright browsers'
+
+  - script: |
+      npx bddgen
+      npx playwright test
+    displayName: 'Run Playwright tests'
+    env:
+      BASE_URL: $(BASE_URL)
+
+  - script: |
+      if [ -d "reports/html-report" ]; then
+        zip -r html-report.zip reports/html-report
+      else
+        echo "No HTML report directory found; skipping zip."
+      fi
+    condition: always()
+    displayName: 'Zip HTML report'
+
+  - task: PublishPipelineArtifact@1
+    condition: always()
+    inputs:
+      targetPath: 'reports/html-report'
+      artifact: 'playwright-html-report'
+    displayName: 'Publish HTML report artifact'

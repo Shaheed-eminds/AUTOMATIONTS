@@ -8,7 +8,9 @@ Feature: Login
     Then I should see the dashboard
 
   Scenario Outline: Unsuccessful login with invalid credentials
-    When I log in with username "<username>" and password "<password>"
+    When I fill in the username "<username>"
+    And I fill in the password "<password>"
+    And I click the login button
     Then I should see the error message "Invalid credentials"
 
     Examples:
@@ -18,7 +20,9 @@ Feature: Login
       | random_user  | random_pass    |
 
   Scenario Outline: Validation error when required fields are missing
-    When I log in with username "<username>" and password "<password>"
+    When I fill in the username "<username>"
+    And I fill in the password "<password>"
+    And I click the login button
     Then I should see a required field validation error
 
     Examples:

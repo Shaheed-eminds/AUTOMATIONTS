@@ -25,6 +25,18 @@ export class LoginPage extends BasePage {
     await this.loginButton.click();
   }
 
+  async fillUsername(username: string): Promise<void> {
+    await this.usernameInput.fill(username);
+  }
+
+  async fillPassword(password: string): Promise<void> {
+    await this.passwordInput.fill(password);
+  }
+
+  async clickLogin(): Promise<void> {
+    await this.loginButton.click();
+  }
+
   async getErrorMessage(): Promise<string> {
     return (await this.errorAlert.textContent())?.trim() ?? '';
   }

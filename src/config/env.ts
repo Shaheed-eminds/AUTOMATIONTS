@@ -19,4 +19,8 @@ export const env = {
   automationPracticeUrl:
     process.env.AUTOMATION_PRACTICE_URL ??
     'https://testautomationpractice.blogspot.com/2018/09/automation-form.html',
+  // Local file, same reasoning as automationPracticeUrl above — an absolute
+  // file:// URL, navigated to directly rather than via baseURL.
+  onboardlyAppUrl:
+    process.env.ONBOARDLY_APP_URL ?? 'file:///C:/Users/Shaheed.MD/Downloads/onboardly-app.html',
 };

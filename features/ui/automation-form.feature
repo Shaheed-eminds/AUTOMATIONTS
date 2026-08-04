@@ -9,13 +9,17 @@ Feature: Automation Practice - Data Entry Form
     Given I am on the automation practice form page
 
   Scenario Outline: Fill out and submit the data entry form
-    When I enter personal details name "<name>" email "<email>" phone "<phone>" address "<address>"
+    When I enter the name "<name>"
+    And I enter the email "<email>"
+    And I enter the phone "<phone>"
+    And I enter the address "<address>"
     And I select "<gender>" as the gender
     And I select the days "<days>"
     And I select "<country>" as the country
     And I select the colors "<colors>"
     And I select the animals "<animals>"
-    And I set the start date to "<start>" and end date to "<end>"
+    And I set the start date to "<start>"
+    And I set the end date to "<end>"
     And I submit the form
     Then the name field should contain "<name>"
     And the email field should contain "<email>"

@@ -19,14 +19,6 @@ When('I click on {string}', async ({ windowManager, frameManager }, selector: st
   await root.locator(selector).click();
 });
 
-When(
-  'I fill {string} with {string}',
-  async ({ windowManager, frameManager }, selector: string, value: string) => {
-    const root = frameManager.resolve(windowManager.active);
-    await root.locator(selector).fill(value);
-  }
-);
-
 Then('I should see {string}', async ({ windowManager, frameManager }, selector: string) => {
   const root = frameManager.resolve(windowManager.active);
   await expect(root.locator(selector)).toBeVisible();

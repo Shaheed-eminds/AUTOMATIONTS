@@ -137,9 +137,17 @@ export class AutomationFormPage extends BasePage {
   }
 
   /** `start`/`end` are ISO dates (yyyy-mm-dd), matching the native date inputs' format. */
-  async setDateRange(start: string, end: string): Promise<void> {
+  async fillStartDate(start: string): Promise<void> {
     await this.startDateInput.fill(start);
+  }
+
+  async fillEndDate(end: string): Promise<void> {
     await this.endDateInput.fill(end);
+  }
+
+  async setDateRange(start: string, end: string): Promise<void> {
+    await this.fillStartDate(start);
+    await this.fillEndDate(end);
   }
 
   async submit(): Promise<void> {

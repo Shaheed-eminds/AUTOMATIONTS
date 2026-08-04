@@ -18,8 +18,16 @@ When('I log in with valid credentials', async ({ loginPage }) => {
   await loginPage.login(users.standard.username, users.standard.password);
 });
 
-When('I log in with username {string} and password {string}', async ({ loginPage }, username: string, password: string) => {
-  await loginPage.login(username, password);
+When('I fill in the username {string}', async ({ loginPage }, username: string) => {
+  await loginPage.fillUsername(username);
+});
+
+When('I fill in the password {string}', async ({ loginPage }, password: string) => {
+  await loginPage.fillPassword(password);
+});
+
+When('I click the login button', async ({ loginPage }) => {
+  await loginPage.clickLogin();
 });
 
 Then('I should see the dashboard', async ({ dashboardPage, page }) => {

@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 
 /**
  * Every page object extends this. It only holds behaviour that is truly
@@ -22,5 +22,15 @@ export abstract class BasePage {
 
   async title(): Promise<string> {
     return this.page.title();
+  }
+
+  /** Onboardly wizard screens are all in the DOM at once, toggled via
+   * `display:none` — visibility is what actually proves "which screen am I on". */
+  async expectScreenVisible(screen: number | 'success'): Promise<void> {
+    await expect(this.page.getByTestId(`screen-${screen}`)).toBeVisible();
+  }
+
+  async expectStepActive(step: number): Promise<void> {
+    await expect(this.page.getByTestId(`step-chip-${step}`)).toHaveClass(/active/);
   }
 }
