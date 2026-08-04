@@ -36,6 +36,12 @@ steps:
     displayName: 'Run Playwright tests'
     env:
       BASE_URL: $(BASE_URL)
+      # playwright.config.ts picks headless mode off process.env.CI. GitHub
+      # Actions sets that automatically; Azure Pipelines doesn't, so every
+      # browser launch was trying to open headed with no display and dying
+      # instantly ("Missing X server or $DISPLAY"). Setting it here fixes
+      # headless mode and also activates the config's CI-tuned retries/workers.
+      CI: true
 
   - script: |
       if [ -d "reports/html-report" ]; then
