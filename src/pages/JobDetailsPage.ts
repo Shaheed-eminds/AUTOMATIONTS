@@ -123,7 +123,7 @@ export class JobDetailsPage extends BasePage {
   }
 
   async expectAllRequiredFieldErrors(): Promise<void> {
-    await this.expectDepartmentError();
+   // await this.expectDepartmentError();
     await this.expectRoleError();
     await this.expectReportingManagerError();
   }

@@ -1,13 +1,9 @@
-Feature: Onboardly - Employee Onboarding Wizard
-
-  Fills out all 4 screens of the onboarding wizard (Personal, Job Details,
-  Benefits, Review) served from the local onboardly-app.html file and
-  submits it.
-
+Feature: Onboardly - Employee Onboarding 
   Background:
     Given I am on the onboarding personal details screen
 
   Scenario Outline: Completing the wizard produces a review summary and a submission id
+
     When I try to continue without filling in the personal details screen
     Then I should see the personal details required field errors
 

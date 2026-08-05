@@ -47,7 +47,28 @@
       "Bash(mkdir -p \"/c/Users/Shaheed.MD/AppData/Local/Temp/claude/C--Users-Shaheed-MD-AutomationTS/11b89d9e-248f-4d4f-9546-e8fd5ee420e2/scratchpad/profile_docx\")",
       "Bash(unzip -o -q \"C:\\\\Users\\\\Shaheed.MD\\\\Downloads\\\\EM Associate Profile - Md Shaheed.docx\" -d \"/c/Users/Shaheed.MD/AppData/Local/Temp/claude/C--Users-Shaheed-MD-AutomationTS/11b89d9e-248f-4d4f-9546-e8fd5ee420e2/scratchpad/profile_docx\")",
       "Read(//c/Users/Shaheed.MD/AppData/Local/Temp/claude/C--Users-Shaheed-MD-AutomationTS/11b89d9e-248f-4d4f-9546-e8fd5ee420e2/scratchpad/profile_docx/**)",
-      "Bash(HEADLESS=true npx playwright test --project=chrome --project=bdd)"
+      "Bash(HEADLESS=true npx playwright test --project=chrome --project=bdd)",
+      "Bash(code --list-extensions)",
+      "PowerShell(Stop-Process -Id 23780 -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Id 30136 -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-NetTCPConnection -LocalPort 9323 -ErrorAction SilentlyContinue)",
+      "Bash(timeout 5 npx playwright show-report reports/html-report --host=127.0.0.1 --port=9323)",
+      "Bash(tasklist //FI \"IMAGENAME eq node.exe\" //FO CSV)",
+      "Bash(echo \"exit: $?\")",
+      "PowerShell(Get-Process | Where-Object { $_.ProcessName -match \"tsserver|node\" } | Select-Object Id,ProcessName,Path,StartTime,@{N='CmdLine';E={\\(Get-CimInstance Win32_Process -Filter \"ProcessId=$\\($_.Id\\)\"\\).CommandLine}} | Format-List)",
+      "PowerShell(Get-Process | Where-Object { $_.ProcessName -match \"^Code$|^node$\" } | Select-Object Id,ProcessName,@{N='Parent';E={\\(Get-CimInstance Win32_Process -Filter \"ProcessId=$\\($_.Id\\)\"\\).ParentProcessId}},@{N='CmdLine';E={\\(Get-CimInstance Win32_Process -Filter \"ProcessId=$\\($_.Id\\)\"\\).CommandLine}} | Format-Table -Wrap -AutoSize)",
+      "PowerShell(Get-CimInstance Win32_Process -Filter \"Name='Code.exe'\" | Where-Object { $_.CommandLine -match \"tsserver\" } | Select-Object ProcessId, @{N='Mode';E={ if \\($_.CommandLine -match 'partialSemantic'\\) {'syntax'} else {'semantic'} }}, CreationDate | Format-Table -AutoSize)",
+      "Bash(tasklist //FI \"IMAGENAME eq node.exe\")",
+      "Bash(curl -s http://127.0.0.1:9323/ -o /dev/null -w \"%{http_code}\\\\n\")",
+      "Bash(jobs -l)",
+      "Bash(kill %1)",
+      "Bash(python3 -c \"print\\('n/a'\\)\")",
+      "Bash(fsutil reparsepoint *)",
+      "Bash(certutil -hashfile src/pages/ReviewPage.ts MD5)",
+      "Bash(node -e ' *)",
+      "Bash(node -e \"try { require\\('js-yaml'\\); console.log\\('js-yaml available'\\); } catch\\(e\\) { console.log\\('js-yaml not installed, skipping parse check'\\); }\")",
+      "Bash(git commit -m 'Fix invalid timeoutInMinutes placement in azure-pipelines.yml *)",
+      "Bash(BASE_URL='' npx playwright test tests/login.spec.ts --project=chrome --reporter=list)"
     ]
   }
 }
