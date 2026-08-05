@@ -1,5 +1,6 @@
 import { createBdd } from 'playwright-bdd';
 import { test } from '../../src/fixtures/pageFixtures';
+import { BenefitsPage } from '@pages/BenefitsPage';
 
 const { Given, When, Then } = createBdd(test);
 
@@ -104,12 +105,9 @@ When('I set the number of dependents to {int}', async ({ benefitsPage }, count: 
   await benefitsPage.setDependentsCount(count);
 });
 
-When('I fill in dependent 1 name {string}', async ({ benefitsPage }, name: string) => {
-  await benefitsPage.fillDependentName(0, name);
-});
 
-When('I fill in dependent 2 name {string}', async ({ benefitsPage }, name: string) => {
-  await benefitsPage.fillDependentName(1, name);
+When('I fill in dependent {int} name {string}', async ({ benefitsPage }, dependentNumber: number, name: string) => {
+  await benefitsPage.fillDependentName(dependentNumber - 1, name); // -1 since page object is 0-indexed
 });
 
 When('I fill in the retirement contribution {string}', async ({ benefitsPage }, pct: string) => {
@@ -154,3 +152,13 @@ When('I restart the onboarding wizard', async ({ reviewPage }) => {
 Then('I should be back on the onboarding personal details screen', async ({ personalDetailsPage }) => {
   await personalDetailsPage.expectScreenVisible(1);
 });
+
+When('I click edit button on the benefit section of the review page', async ({ reviewPage }) => {
+  await reviewPage.editScreen3();
+});
+
+Then ('I land on the benefits Page', async({benefitsPage}) => {
+  await benefitsPage.expectOnBenefitsScreen();
+});
+
+
