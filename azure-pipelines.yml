@@ -1,7 +1,10 @@
 # Mirrors .github/workflows/ci.yml — runs the BDD suite on push/PR to main.
 #
-# Email notification (the GitHub workflow's SMTP step) is intentionally
-# left out for now — can be added once the basic run is green.
+# Email notification (scripts/send-report-email.js) only fires on success.
+# Before it can send anything, set these as pipeline variables (Pipeline >
+# Edit > Variables): MAIL_USERNAME, MAIL_PASSWORD (mark this one Secret),
+# MAIL_RECIPIENTS (comma-separated). Without them the step just logs a
+# message and exits — it never fails the build.
 
 trigger:
   branches:
@@ -55,3 +58,11 @@ steps:
       targetPath: 'reports/html-report'
       artifact: 'playwright-html-report'
     displayName: 'Publish HTML report artifact'
+
+  - script: node scripts/send-report-email.js
+    condition: succeeded()
+    displayName: 'Email the report on success'
+    env:
+      MAIL_USERNAME: $(MAIL_USERNAME)
+      MAIL_PASSWORD: $(MAIL_PASSWORD)
+      MAIL_RECIPIENTS: $(MAIL_RECIPIENTS)
