@@ -25,8 +25,8 @@ export default defineConfig({
   ],
   use: {
     // Headed locally so you can watch the browser; CI stays headless (no display, faster).
-    // Override locally with `HEADLESS=true` (see the test:headless script) if you want a quick headless check.
-    headless: process.env.CI ? true : process.env.HEADLESS === 'true',
+    // Override locally with `HEADLESS=False` (see the test:headless script) if you want a quick headless check.
+    headless: process.env.CI ? true : process.env.HEADLESS === 'False',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
