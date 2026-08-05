@@ -68,7 +68,10 @@
       "Bash(node -e ' *)",
       "Bash(node -e \"try { require\\('js-yaml'\\); console.log\\('js-yaml available'\\); } catch\\(e\\) { console.log\\('js-yaml not installed, skipping parse check'\\); }\")",
       "Bash(git commit -m 'Fix invalid timeoutInMinutes placement in azure-pipelines.yml *)",
-      "Bash(BASE_URL='' npx playwright test tests/login.spec.ts --project=chrome --reporter=list)"
+      "Bash(BASE_URL='' npx playwright test tests/login.spec.ts --project=chrome --reporter=list)",
+      "Bash(npm audit *)",
+      "Bash(node scripts/send-report-email.js)",
+      "Bash(git revert *)"
     ]
   }
 }
