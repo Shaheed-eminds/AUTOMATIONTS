@@ -43,7 +43,7 @@ export class PersonalDetailsPage extends BasePage {
     this.cityError = page.getByTestId('error-city');
     this.fullTimeRadio = page.getByTestId('radio-employmentType-fulltime');
     this.contractRadio = page.getByTestId('radio-employmentType-contract');
-    this.internRadio = page.getByTestId('radio-employmentType-intern');
+    this.internRadio = page.getByTestId('radio-employmentType-intern'); 
     this.employmentTypeError = page.getByTestId('error-employmentType');
     this.contractMonthsInput = page.getByTestId('input-contractMonths');
     this.contractMonthsError = page.getByTestId('error-contractMonths');
