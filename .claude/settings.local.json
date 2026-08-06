@@ -71,7 +71,13 @@
       "Bash(BASE_URL='' npx playwright test tests/login.spec.ts --project=chrome --reporter=list)",
       "Bash(npm audit *)",
       "Bash(node scripts/send-report-email.js)",
-      "Bash(git revert *)"
+      "Bash(git revert *)",
+      "Bash(disown)",
+      "Read(//tmp/**)",
+      "Bash(sleep 3 && cat /tmp/case-app-dev.log)",
+      "Bash(PORT=4001 node server/index.js)",
+      "PowerShell(Get-NetTCPConnection -LocalPort 4001 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique | ForEach-Object { Stop-Process -Id $_ -Force })",
+      "PowerShell(Get-NetTCPConnection -LocalPort 4001 -ErrorAction SilentlyContinue)"
     ]
   }
 }
