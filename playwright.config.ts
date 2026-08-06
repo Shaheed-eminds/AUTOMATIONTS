@@ -22,6 +22,7 @@ export default defineConfig({
   reporter: [
     ['list'],
     ['html', { outputFolder: 'reports/html-report', open: 'never' }],
+    ['junit', { outputFile: 'reports/results.xml' }],
   ],
   use: {
     // Headed locally so you can watch the browser; CI stays headless (no display, faster).
@@ -38,18 +39,18 @@ export default defineConfig({
       name: 'chrome',
       use: { ...devices['Desktop Chrome'] },
     },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-    {
-      name: 'bdd',
-      testDir: bddTestDir,
-      use: { ...devices['Desktop Chrome'] },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
+    // {
+    //   name: 'bdd',
+    //   testDir: bddTestDir,
+    //   use: { ...devices['Desktop Chrome'] },
+    // },
   ],
 });
