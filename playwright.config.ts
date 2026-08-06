@@ -24,11 +24,7 @@ export default defineConfig({
   reporter: [
     ['list'],
     ['html', { outputFolder: 'reports/html-report', open: 'never' }],
-<<<<<<< HEAD
-     ['junit', { outputFile: 'reports/results.xml' }]
-=======
     ['junit', { outputFile: 'reports/results.xml' }],
->>>>>>> Junit
   ],
   use: {
     // Headed locally so you can watch the browser; CI stays headless (no display, faster).
