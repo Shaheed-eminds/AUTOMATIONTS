@@ -49,11 +49,11 @@ export default defineConfig({
     //   name: 'webkit',
     //   use: { ...devices['Desktop Safari'] },
     // },
-    // {
-    //   name: 'bdd',
-    //   testDir: bddTestDir,
-    //   use: { ...devices['Desktop Chrome'] },
-    // },
+    {
+      name: 'bdd',
+      testDir: bddTestDir,
+      use: { ...devices['Desktop Chrome'] },
+    },
   ],
   
 });

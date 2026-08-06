@@ -46,8 +46,8 @@ Feature: Onboardly - Employee Onboarding
     | Alex Kim | alex.kim@test.com | India   | Karnataka | Bengaluru | full-time      | Engineering | Site Reliability Engineer | Morgan Lee        | yes    | IST (UTC+5:30) | Basic      | 2               | Riya Kim   | Dev Kim    | 5             | You're all set! | The onboarding record has been created. | OB                  |
 
 
-///   Amruta- checking script stops if mandatory fields are NOT entered
-//
+#   Amruta- checking script stops if mandatory fields are NOT entered
+#
 Scenario Outline: Check for mandatory fields validations
   #  When I try to continue without filling in the personal details screen
   #  Then I should see the personal details required field errors

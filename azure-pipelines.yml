@@ -55,3 +55,11 @@ steps:
       targetPath: 'reports/html-report'
       artifact: 'playwright-html-report'
     displayName: 'Publish HTML report artifact'
+
+  - task: PublishTestResults@2
+    condition: always()
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'reports/results.xml'
+      testRunTitle: 'Onboarding BDD Suite'
+    displayName: 'Publish test results to Azure Test Plans'
