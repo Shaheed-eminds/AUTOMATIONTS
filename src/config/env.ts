@@ -19,4 +19,7 @@ export const env = {
   onboardlyAppUrl:
     process.env.ONBOARDLY_APP_URL ||
     pathToFileURL(path.resolve(__dirname, '../../apps/onboardly-app.html')).href,
-};
+  
+   // CasePro — Case Management app
+    caseProAppUrl: process.env.CASEPRO_APP_URL || 'https://automationts.onrender.com/',
+  };

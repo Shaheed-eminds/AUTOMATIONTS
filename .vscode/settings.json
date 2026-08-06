@@ -1,6 +1,6 @@
 {
   "playwright.reuseBrowser": true,
-  "playwright.showTrace": true,
+  "playwright.showTrace": false,
   "cucumberautocomplete.steps": ["steps/**/*.ts"],
   "cucumberautocomplete.syncfeatures": "features/**/*.feature",
   "playwrightBdd.configPath": "playwright.config.ts",
