@@ -1,65 +1,43 @@
 import { useEffect, useState } from 'react';
-import { decideCase, fetchCase, listCases } from '../api';
+import { decideCase, fetchCase } from '../api';
 import type { AuthUser, CaseRecord } from '../types';
 
-export default function AdminDashboardPage({ admin }: { admin: AuthUser }) {
-  const [searchId, setSearchId] = useState('');
-  const [searchError, setSearchError] = useState('');
+export default function AdminCaseDetailPage({
+  caseId,
+  admin,
+  onBack,
+}: {
+  caseId: string;
+  admin: AuthUser;
+  onBack: () => void;
+}) {
   const [current, setCurrent] = useState<CaseRecord | null>(null);
-  const [recent, setRecent] = useState<CaseRecord[]>([]);
+  const [loadError, setLoadError] = useState('');
   const [rejecting, setRejecting] = useState(false);
   const [rejectReason, setRejectReason] = useState('');
   const [decisionError, setDecisionError] = useState('');
   const [busy, setBusy] = useState(false);
 
-  async function refreshRecent() {
+  async function load() {
+    setLoadError('');
     try {
-      setRecent(await listCases());
-    } catch {
-      // Non-critical — recent list is a convenience panel.
+      setCurrent(await fetchCase(caseId));
+    } catch (err) {
+      setLoadError(err instanceof Error ? err.message : 'Could not load this case.');
     }
   }
 
   useEffect(() => {
-    refreshRecent();
-  }, []);
-
-  async function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
-    setSearchError('');
-    setDecisionError('');
-    setRejecting(false);
-    setRejectReason('');
-    if (!searchId.trim()) {
-      setSearchError('Enter a Case ID to search.');
-      return;
-    }
-    try {
-      const record = await fetchCase(searchId.trim());
-      setCurrent(record);
-    } catch (err) {
-      setCurrent(null);
-      setSearchError(err instanceof Error ? err.message : 'Search failed.');
-    }
-  }
-
-  function openCase(record: CaseRecord) {
-    setCurrent(record);
-    setSearchId(record.caseId);
-    setSearchError('');
-    setDecisionError('');
-    setRejecting(false);
-    setRejectReason('');
-  }
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [caseId]);
 
   async function handleApprove() {
     if (!current) return;
     setBusy(true);
     setDecisionError('');
     try {
-      const updated = await decideCase(current.caseId, 'approve', null, admin.fullName);
-      setCurrent(updated);
-      refreshRecent();
+      setCurrent(await decideCase(current.caseId, 'approve', null, admin.fullName));
     } catch (err) {
       setDecisionError(err instanceof Error ? err.message : 'Approve failed.');
     } finally {
@@ -76,11 +54,9 @@ export default function AdminDashboardPage({ admin }: { admin: AuthUser }) {
     setBusy(true);
     setDecisionError('');
     try {
-      const updated = await decideCase(current.caseId, 'reject', rejectReason.trim(), admin.fullName);
-      setCurrent(updated);
+      setCurrent(await decideCase(current.caseId, 'reject', rejectReason.trim(), admin.fullName));
       setRejecting(false);
       setRejectReason('');
-      refreshRecent();
     } catch (err) {
       setDecisionError(err instanceof Error ? err.message : 'Reject failed.');
     } finally {
@@ -88,45 +64,40 @@ export default function AdminDashboardPage({ admin }: { admin: AuthUser }) {
     }
   }
 
-  const totalHours = current ? current.timesheet.reduce((sum, r) => sum + Number(r.hours || 0), 0) : 0;
-
   return (
-    <div className="admin-shell" data-testid="admin-dashboard">
-      <form className="search-row" onSubmit={handleSearch}>
-        <input
-          data-testid="input-search-caseId"
-          placeholder="Search by Case ID, e.g. CASE-1001"
-          value={searchId}
-          onChange={(e) => setSearchId(e.target.value)}
-        />
-        <button className="primary" type="submit" data-testid="btn-search">Search</button>
-      </form>
-      {searchError && <div className="form-error-banner" data-testid="search-error">{searchError}</div>}
+    <div data-testid="admin-case-detail">
+      <button className="secondary back-link" data-testid="btn-back-to-dashboard" onClick={onBack}>
+        ← Back to Dashboard
+      </button>
 
-      {recent.length > 0 && (
-        <>
-          <h3 style={{ fontSize: 13, textTransform: 'uppercase', color: 'var(--muted)' }}>Recent cases</h3>
-          <ul className="case-list" data-testid="recent-cases-list">
-            {recent.map((c) => (
-              <li key={c.caseId} data-testid={`recent-case-${c.caseId}`} onClick={() => openCase(c)}>
-                <span>
-                  <strong>{c.caseId}</strong> — {c.caseDetails.subject}
-                  <div className="meta">{c.requester.fullName} · {c.requester.department}</div>
-                </span>
-                <span className={`status-badge ${c.status}`}>{c.status}</span>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+      {loadError && <div className="form-error-banner" data-testid="detail-load-error">{loadError}</div>}
 
       {current && (
-        <div className="card" data-testid="case-detail-card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h2 data-testid="case-detail-id">{current.caseId}</h2>
-            <span className={`status-badge ${current.status}`} data-testid="case-detail-status">{current.status}</span>
+        <>
+          <div className="highlights-panel" data-testid="case-highlights">
+            <div className="highlights-top">
+              <div className="object-icon">C</div>
+              <div>
+                <div className="object-eyebrow">Case</div>
+                <h1 className="highlights-title" data-testid="case-detail-id">{current.caseId}</h1>
+              </div>
+              <span
+                className={`status-badge ${current.status}`}
+                data-testid="case-detail-status"
+                style={{ marginLeft: 'auto' }}
+              >
+                {current.status}
+              </span>
+            </div>
+            <div className="highlights-fields">
+              <div className="highlight-field"><span className="hf-label">Subject</span><span className="hf-value">{current.caseDetails.subject}</span></div>
+              <div className="highlight-field"><span className="hf-label">Priority</span><span className="hf-value">{current.requester.priority}</span></div>
+              <div className="highlight-field"><span className="hf-label">Requester</span><span className="hf-value">{current.requester.fullName}</span></div>
+              <div className="highlight-field"><span className="hf-label">Department</span><span className="hf-value">{current.requester.department}</span></div>
+            </div>
           </div>
 
+          <div className="card" data-testid="case-detail-card">
           <div className="summary-block">
             <h3>Requester</h3>
             <div className="summary-row"><span>Name</span><span data-testid="detail-fullName">{current.requester.fullName}</span></div>
@@ -167,7 +138,7 @@ export default function AdminDashboardPage({ admin }: { admin: AuthUser }) {
                 ))}
               </tbody>
             </table>
-            <div className="timesheet-total" data-testid="detail-totalHours">Total hours: {totalHours}</div>
+            <div className="timesheet-total" data-testid="detail-totalHours">Total hours: {current.totalHours}</div>
           </div>
 
           {current.status === 'Submitted' && (
@@ -211,7 +182,8 @@ export default function AdminDashboardPage({ admin }: { admin: AuthUser }) {
               )}
             </div>
           )}
-        </div>
+          </div>
+        </>
       )}
     </div>
   );
