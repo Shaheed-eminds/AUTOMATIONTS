@@ -5,7 +5,10 @@ the OrangeHRM demo (`https://opensource-demo.orangehrmlive.com`) for login,
 and the public data-entry practice form
 (`https://testautomationpractice.blogspot.com/2018/09/automation-form.html`)
 for form-control coverage — built to be easy to extend for new pages and
-specs without touching existing code.
+specs without touching existing code and
+CasePro
+(`https://automationts.onrender.com/`) for case management workflows —
+built to be easy to extend for new pages and specs without touching existing code.
 
 ## How it's organized
 

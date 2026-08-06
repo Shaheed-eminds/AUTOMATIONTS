@@ -9,6 +9,8 @@ const bddTestDir = defineBddConfig({
   steps: ['steps/**/*.ts', 'src/fixtures/pageFixtures.ts'],
 });
 
+
+
 export default defineConfig({
   testDir: './tests',
   timeout: 45_000,
@@ -22,6 +24,7 @@ export default defineConfig({
   reporter: [
     ['list'],
     ['html', { outputFolder: 'reports/html-report', open: 'never' }],
+     ['junit', { outputFile: 'reports/results.xml' }]
   ],
   use: {
     // Headed locally so you can watch the browser; CI stays headless (no display, faster).
@@ -52,4 +55,5 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
+  
 });
