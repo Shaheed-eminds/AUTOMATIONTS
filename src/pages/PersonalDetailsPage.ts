@@ -29,6 +29,8 @@ export class PersonalDetailsPage extends BasePage {
   private readonly universityError: Locator;
   private readonly nextButton: Locator;
 
+  
+
   constructor(page: Page) {
     super(page);
     this.fullNameInput = page.getByTestId('input-fullName');
@@ -53,7 +55,7 @@ export class PersonalDetailsPage extends BasePage {
   }
 
   async open(): Promise<void> {
-    await this.goto(env.onboardlyAppUrl);
+    await this.goto(env.caseProAppUrl);
   }
 
   async fillFullName(name: string): Promise<void> {
@@ -190,5 +192,6 @@ export class PersonalDetailsPage extends BasePage {
     await this.expectStateError();
     await this.expectCityError();
     await this.expectEmploymentTypeError();
+
   }
 }

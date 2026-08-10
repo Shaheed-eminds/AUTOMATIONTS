@@ -1,11 +1,16 @@
 import { test as base } from 'playwright-bdd';
-import { PersonalDetailsPage } from '../pages/PersonalDetailsPage';
-import { JobDetailsPage } from '../pages/JobDetailsPage';
-import { BenefitsPage } from '../pages/BenefitsPage';
+ import { PersonalDetailsPage } from '../pages/PersonalDetailsPage';
+ import { JobDetailsPage } from '../pages/JobDetailsPage';
+ import { BenefitsPage } from '../pages/BenefitsPage';
 import { ReviewPage } from '../pages/ReviewPage';
 import { WindowManager } from '../utils/WindowManager';
 import { FrameManager } from '../utils/FrameManager';
 
+
+import { LogniDetailsPage } from '../pages/LogniDetailsPage'; 
+import {RequesterDetailsPage} from '../pages/RequesterDetailsPage';
+
+/**
 /**
  * Extends playwright-bdd's `test` (itself a superset of @playwright/test's
  * TestType — same fixtures plus Given/When/Then support) with one fixture
@@ -14,26 +19,42 @@ import { FrameManager } from '../utils/FrameManager';
  * and it's available to every spec AND every BDD step with no other wiring.
  */
 type Pages = {
+
+  /*login details page -Render App*/
+  logniDetailsPage: LogniDetailsPage;
+  requesterDetailsPage: RequesterDetailsPage;
+
   personalDetailsPage: PersonalDetailsPage;
   jobDetailsPage: JobDetailsPage;
-  benefitsPage: BenefitsPage;
+  
+   benefitsPage: BenefitsPage;
   reviewPage: ReviewPage;
-  windowManager: WindowManager;
-  frameManager: FrameManager;
+   windowManager: WindowManager;
+   frameManager: FrameManager;
 };
 
+
 export const test = base.extend<Pages>({
-  personalDetailsPage: async ({ page }, use) => {
-    await use(new PersonalDetailsPage(page));
+
+logniDetailsPage: async ({ page }, use) => {
+    await use(new LogniDetailsPage(page));
   },
+
+requesterDetailsPage: async ({ page }, use) => {
+    await use(new RequesterDetailsPage(page));
+  },
+
+  personalDetailsPage: async ({ page }, use) => {
+   await use(new PersonalDetailsPage(page));
+ },
   jobDetailsPage: async ({ page }, use) => {
-    await use(new JobDetailsPage(page));
+   await use(new JobDetailsPage(page));
   },
   benefitsPage: async ({ page }, use) => {
-    await use(new BenefitsPage(page));
+  await use(new BenefitsPage(page));
   },
   reviewPage: async ({ page }, use) => {
-    await use(new ReviewPage(page));
+   await use(new ReviewPage(page));
   },
   windowManager: async ({ page, context }, use) => {
     await use(new WindowManager(context, page));

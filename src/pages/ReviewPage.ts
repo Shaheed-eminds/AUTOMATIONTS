@@ -70,4 +70,5 @@ export class ReviewPage extends BasePage {
   async restart(): Promise<void> {
     await this.restartButton.click();
   }
+
 }

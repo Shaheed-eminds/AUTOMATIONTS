@@ -14,7 +14,7 @@ export class JobDetailsPage extends BasePage {
   private readonly reportingManagerHint: Locator;
   private readonly remoteYesRadio: Locator;
   private readonly remoteNoRadio: Locator;
-  private readonly timezoneSelect: Locator;
+  private readonly timezoneSelect: Locator;ent
   private readonly timezoneError: Locator;
   private readonly backButton: Locator;
   private readonly nextButton: Locator;

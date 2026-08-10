@@ -16,7 +16,11 @@ export const env = {
   // original author's. `||` on purpose, not `??`: a CI pipeline variable
   // that's referenced but never actually configured resolves to an empty
   // string, not undefined — `??` would silently accept that empty string.
-  onboardlyAppUrl:
-    process.env.ONBOARDLY_APP_URL ||
-    pathToFileURL(path.resolve(__dirname, '../../apps/onboardly-app.html')).href,
+  //onboardlyAppUrl:
+    //process.env.ONBOARDLY_APP_URL ||
+    //pathToFileURL(path.resolve(__dirname, '../../apps/onboardly-app.html')).href,
+
+caseProAppUrl: 
+process.env.CASEPRO_APP_URL || 'https://automationts.onrender.com/',
+
 };

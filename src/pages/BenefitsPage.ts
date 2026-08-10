@@ -80,4 +80,7 @@ export class BenefitsPage extends BasePage {
   async expectEquityOptionHidden(): Promise<void> {
     await expect(this.equityGroup).toBeHidden();
   }
+  async expectOnBenefitsScreen(): Promise<void> {
+    await expect(this.healthPlanSelect).toBeVisible();
+  }
 }
