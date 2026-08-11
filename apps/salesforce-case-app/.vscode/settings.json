@@ -1,0 +1,4 @@
+{
+    "playwrightBdd.configPath": "client/vite.config.ts",
+    "playwrightBdd.stepsFolder": "server"
+}
