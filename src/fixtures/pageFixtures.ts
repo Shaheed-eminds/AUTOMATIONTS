@@ -1,14 +1,15 @@
 import { test as base } from 'playwright-bdd';
+//import { test as base } from '@playwright/test';
+
+import {LogniDetailsPage} from '../pages/LogniDetailsPage'; 
+import {RequesterDetailsPage} from '../pages/RequesterDetailsPage';
+import {CaseDetailsPage} from '../pages/CaseDetailsPage';
  import { PersonalDetailsPage } from '../pages/PersonalDetailsPage';
  import { JobDetailsPage } from '../pages/JobDetailsPage';
  import { BenefitsPage } from '../pages/BenefitsPage';
 import { ReviewPage } from '../pages/ReviewPage';
 import { WindowManager } from '../utils/WindowManager';
 import { FrameManager } from '../utils/FrameManager';
-
-
-import { LogniDetailsPage } from '../pages/LogniDetailsPage'; 
-import {RequesterDetailsPage} from '../pages/RequesterDetailsPage';
 
 /**
 /**
@@ -21,9 +22,9 @@ import {RequesterDetailsPage} from '../pages/RequesterDetailsPage';
 type Pages = {
 
   /*login details page -Render App*/
-  logniDetailsPage: LogniDetailsPage;
+  loginDetailsPage: LogniDetailsPage;
   requesterDetailsPage: RequesterDetailsPage;
-
+  caseDetailsPage: CaseDetailsPage;
   personalDetailsPage: PersonalDetailsPage;
   jobDetailsPage: JobDetailsPage;
   
@@ -44,6 +45,11 @@ requesterDetailsPage: async ({ page }, use) => {
     await use(new RequesterDetailsPage(page));
   },
 
+
+  caseDetailsPage: async ({ page }, use) => {
+    await use(new CaseDetailsPage(page));
+  },
+  
   personalDetailsPage: async ({ page }, use) => {
    await use(new PersonalDetailsPage(page));
  },

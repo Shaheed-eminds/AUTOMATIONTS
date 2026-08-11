@@ -2,13 +2,25 @@ import { Locator, Page, expect, test } from '@playwright/test';
 import { BasePage } from './BasePage';
 import { env } from '../config/env';
 
-// The 
+
+// The three Priority options on the form- radiobutton.
+export type PriorityType =
+  | 'Low'
+  | 'Medium'
+  | 'High'
+    'Critical';
+
 
 export class RequesterDetailsPage extends BasePage {
   private readonly fullNameInput: Locator;
   // private readonly fullNameError: Locator;
   private readonly employeeID: Locator;
-  // private readonly emailaddress: Locator;
+  private readonly emailAddress: Locator;
+  private readonly DepartmentSelect: Locator;
+  private readonly lowpriorityRadio: Locator;
+  private readonly mediumpriorityRadio: Locator;
+  private readonly highpriorityRadio: Locator;
+  private readonly criticalpriorityRadio: Locator;
   private readonly nextButton: Locator;
 
   constructor(page: Page) {
@@ -16,7 +28,12 @@ export class RequesterDetailsPage extends BasePage {
     this.fullNameInput = page.getByTestId('input-fullName');
     // this.fullNameError = page.getByTestId('error-fullName');
     this.employeeID = page.getByTestId('input-employeeId');
-   //this.emailaddress = page.getByTestId('error-email');
+    this.emailAddress = page.getByTestId('input-email');
+    this.DepartmentSelect = page.getByTestId('select-department');
+    this.lowpriorityRadio = page.getByTestId('radio-priority-low');
+    this.mediumpriorityRadio = page.getByTestId('radio-priority-medium');
+    this.highpriorityRadio = page.getByTestId('radio-priority-high');
+    this.criticalpriorityRadio = page.getByTestId('radio-priority-critical');
     //this.countrySelect = page.getByTestId('select-country');
     //this.countryError = page.getByTestId('error-country');
     //this.stateSelect = page.getByTestId('select-state');
@@ -38,7 +55,27 @@ export class RequesterDetailsPage extends BasePage {
     await this.employeeID.fill(EmpID);
   }
 
-async goNext(): Promise<void> {
+   async fillEmailAddress(email: string): Promise<void> {
+    await this.emailAddress.fill(email);
+  }
+
+  // Department has the option text you see in the dropdown, e.g. "Engineering/ Sales/Finance".
+  async selectDepartment(department: string): Promise<void> {
+    await this.DepartmentSelect.selectOption({ label: department });
+  }
+  async selectPriority(type: PriorityType): Promise<void> {
+    if (type === 'Low') {
+      await this.lowpriorityRadio.check();
+    } else if (type === 'Medium') {
+      await this.mediumpriorityRadio.check();
+    } else if (type === 'High') {
+      await this.highpriorityRadio.check();
+    } else if (type === 'Critical') {
+      await this.criticalpriorityRadio.check();
+    }
+  }
+
+ async goNext(): Promise<void> {
     await this.nextButton.click();
   }
 

@@ -6,6 +6,7 @@ import { env } from '../config/env';
 // Enter Login details Username and Password
 
 export class LogniDetailsPage extends BasePage {
+  private readonly pagetext: Locator;
   private readonly UserNameInput: Locator;
   private readonly PasswordInput: Locator;
   private readonly UserNameError: Locator;
@@ -28,10 +29,9 @@ export class LogniDetailsPage extends BasePage {
   private readonly SignInButton: Locator;
   private readonly nextButton: Locator;
 
-  
-
-  constructor(page: Page) {
+    constructor(page: Page) {
     super(page);
+    this.pagetext = page.getByTestId('login-screen');
     this.UserNameInput = page.getByTestId('input-username');
     this.PasswordInput = page.getByTestId('input-password');
     this.UserNameError = page.getByTestId('login-error');
@@ -54,11 +54,15 @@ export class LogniDetailsPage extends BasePage {
      this.SignInButton = page.getByTestId('btn-login');
     this.nextButton = page.getByTestId('btn-next-1');
   }
-
+  
   async open(): Promise<void> {
     await this.goto(env.caseProAppUrl);
-  }
-
+    await this.page.waitForTimeout(10000);
+          await expect(this.pagetext).toBeVisible({     
+            timeout: 60000
+          });
+        }
+ 
   async fillUsername(Username: string): Promise<void> {
     await this.UserNameInput.fill(Username);
   }
