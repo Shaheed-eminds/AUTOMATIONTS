@@ -1,9 +1,14 @@
 import { test as base } from 'playwright-bdd';
 //import { test as base } from '@playwright/test';
 
-import {LogniDetailsPage} from '../pages/LogniDetailsPage'; 
+import {LoginDetailsPage} from '../pages/LoginDetailsPage';
 import {RequesterDetailsPage} from '../pages/RequesterDetailsPage';
 import {CaseDetailsPage} from '../pages/CaseDetailsPage';
+import {TimesheetDetailsPage} from '../pages/TimesheetDetailsPage';
+import {ReviewTimesheetPage} from '../pages/ReviewTimesheetPage';
+import {CaseSubmittedPage} from '../pages/CaseSubmittedPage.ts';
+
+
  import { PersonalDetailsPage } from '../pages/PersonalDetailsPage';
  import { JobDetailsPage } from '../pages/JobDetailsPage';
  import { BenefitsPage } from '../pages/BenefitsPage';
@@ -22,34 +27,49 @@ import { FrameManager } from '../utils/FrameManager';
 type Pages = {
 
   /*login details page -Render App*/
-  loginDetailsPage: LogniDetailsPage;
+  loginDetailsPage: LoginDetailsPage;
   requesterDetailsPage: RequesterDetailsPage;
   caseDetailsPage: CaseDetailsPage;
+  timesheetDetailsPage: TimesheetDetailsPage;
+   reviewtimesheetPage: ReviewTimesheetPage;
+   casesubmittedPage: CaseSubmittedPage;
+
   personalDetailsPage: PersonalDetailsPage;
   jobDetailsPage: JobDetailsPage;
-  
-   benefitsPage: BenefitsPage;
+  benefitsPage: BenefitsPage;
   reviewPage: ReviewPage;
-   windowManager: WindowManager;
-   frameManager: FrameManager;
+  windowManager: WindowManager;
+  frameManager: FrameManager;
 };
 
 
 export const test = base.extend<Pages>({
 
-logniDetailsPage: async ({ page }, use) => {
-    await use(new LogniDetailsPage(page));
+loginDetailsPage: async ({ page }, use) => {
+    await use(new LoginDetailsPage(page));
   },
 
 requesterDetailsPage: async ({ page }, use) => {
     await use(new RequesterDetailsPage(page));
   },
 
-
   caseDetailsPage: async ({ page }, use) => {
     await use(new CaseDetailsPage(page));
   },
-  
+
+  timesheetDetailsPage: async ({ page }, use) => {
+    await use(new TimesheetDetailsPage(page));
+  },
+
+   reviewtimesheetPage: async ({ page }, use) => {
+    await use(new ReviewTimesheetPage(page));
+  },
+
+  casesubmittedPage: async ({ page }, use) => {
+    await use(new CaseSubmittedPage(page));
+  },
+
+
   personalDetailsPage: async ({ page }, use) => {
    await use(new PersonalDetailsPage(page));
  },

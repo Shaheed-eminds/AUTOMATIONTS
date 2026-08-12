@@ -18,7 +18,7 @@ Feature: Onboardly - Employee Onboarding
     When I try to continue without filling in the job details screen
     Then I should see the job details required field errors
 
-    When I select the department "<department>"
+    When I select the department<department>"
     And I select the role "<role>"
     And I fill in the reporting manager "<reportingManager>"
     And I choose to work remotely "<remote>"
@@ -43,9 +43,6 @@ Feature: Onboardly - Employee Onboarding
 
     Examples:
       | fullName | email              | country | state     | city      | employmentType | department  | role                      | reportingManager | remote | timezone       | healthPlan | dependentsCount | dependent1 | dependent2 | retirementPct | successHeading   | successMessage                          | submissionIdPrefix |
-<<<<<<< HEAD
-      | Alex Kim | alex.kim@test.com | India   | Karnataka | Bengaluru | full-time      | Engineering | Site Reliability Engineer | Morgan Lee        | yes    | IST (UTC+5:30) | Basic      | 2               | Riya Kim   | Dev Kim    | 5             | You're all set! | The onboarding record has been created. | OB                  |
-=======
       | Alex Kim | test.kim@test.com | India   | Karnataka | Bengaluru | full-time      | Engineering | Site Reliability Engineer | Morgan Lee        | yes    | IST (UTC+5:30) | Basic      | 2               | Riya Kim   | Dev Kim    | 5             | You're all set! | The onboarding record has been created. | OB                  |
 
 
@@ -66,8 +63,8 @@ Feature: Onboardly - Employee Onboarding
     When I try to continue without filling in the job details screen
     Then I should see the job details required field errors
 
-    When I select the department "<department>"
-    And I select the role "<role>"
+   //When I select the departmental "<department>"
+    When Start to type your When step here I select the role "<role>"
     And I fill in the reporting manager "<reportingManager>"
     And I choose to work remotely "<remote>"
     And I select the timezone "<timezone>"
@@ -99,4 +96,3 @@ Feature: Onboardly - Employee Onboarding
     Examples:
       | fullName | email              | country | state     | city      | employmentType | department  | role                      | reportingManager | remote | timezone       | healthPlan |updatedHealthPlan| dependentsCount | updateddependentsCount | dependent1 | dependent2 |dependent3|dependent4|dependent5  | retirementPct | successHeading   | successMessage                          | submissionIdPrefix |
       | Sara Alex| alex.sara@test.com | India   | Karnataka | Bengaluru | full-time      | Engineering | Site Reliability Engineer | Morgan Lee        | yes    | IST (UTC+5:30) | Basic     |Premium          |2                | 5                       |Riya Kim   | Dev Kim    | Sonu Kim | Divya Kim|Nishanth Kim|0              | You're all set! | The onboarding record has been created.  | OB                 |
->>>>>>> b00c49722aea95b3d1a9bedb8899da41e3d6591a

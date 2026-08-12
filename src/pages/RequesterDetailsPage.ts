@@ -12,19 +12,23 @@ export type PriorityType =
 
 
 export class RequesterDetailsPage extends BasePage {
+  private readonly pagetext: Locator;
   private readonly fullNameInput: Locator;
   // private readonly fullNameError: Locator;
   private readonly employeeID: Locator;
   private readonly emailAddress: Locator;
   private readonly DepartmentSelect: Locator;
   private readonly lowpriorityRadio: Locator;
-  private readonly mediumpriorityRadio: Locator;
+  private readonly mediumpriorityRadio: Locator;         
   private readonly highpriorityRadio: Locator;
   private readonly criticalpriorityRadio: Locator;
   private readonly nextButton: Locator;
 
-  constructor(page: Page) {
+
+   constructor(page: Page) {
     super(page);
+    
+    this.pagetext = page.getByTestId('step-chip-1');
     this.fullNameInput = page.getByTestId('input-fullName');
     // this.fullNameError = page.getByTestId('error-fullName');
     this.employeeID = page.getByTestId('input-employeeId');
@@ -44,9 +48,12 @@ export class RequesterDetailsPage extends BasePage {
   }
 
   async open(): Promise<void> {
-    //await this.goto(env.onboardlyAppUrl);
-    await this.goto(env.caseProAppUrl);
-  }
+   // await this.goto(env.caseProAppUrl);
+   // await this.page.waitForTimeout(10000);
+          await expect(this.pagetext).toBeVisible({     
+            timeout: 60000
+          });
+        }
 
   async fillFullName(name: string): Promise<void> {
     await this.fullNameInput.fill(name);
@@ -61,8 +68,24 @@ export class RequesterDetailsPage extends BasePage {
 
   // Department has the option text you see in the dropdown, e.g. "Engineering/ Sales/Finance".
   async selectDepartment(department: string): Promise<void> {
+    await this.page.waitForTimeout(10000);
+    await this.DepartmentSelect.highlight();
+    console.log('✅ Highlighted department dropdown');
+
+  // Wait and click
+  await this.DepartmentSelect.waitFor({ state: 'visible' });
+  await this.DepartmentSelect.click();
+  console.log('✅ Clicked dropdown');
+
     await this.DepartmentSelect.selectOption({ label: department });
+   console.log(`✅ Current value: ${department}`)
+   await this.page.waitForTimeout(10000);;
+   //await this.DepartmentSelect.selectOption({ index: 1});
   }
+
+
+
+
   async selectPriority(type: PriorityType): Promise<void> {
     if (type === 'Low') {
       await this.lowpriorityRadio.check();
@@ -76,9 +99,8 @@ export class RequesterDetailsPage extends BasePage {
   }
 
  async goNext(): Promise<void> {
+     await this.page.waitForTimeout(10000);
     await this.nextButton.click();
   }
-
-
 
 };

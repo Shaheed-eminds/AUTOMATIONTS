@@ -69,8 +69,8 @@ Then('I should see the job details required field errors', async ({ jobDetailsPa
   await jobDetailsPage.expectScreenVisible(2);
 });
 
-When('I select the department {string}', async ({ jobDetailsPage }, department: string) => {
-  await jobDetailsPage.selectDepartment(department);
+When('I select the departmental {string}', async ({ jobDetailsPage }, department: string) => {
+ await jobDetailsPage.selectDepartment(department);
 });
 
 When('I select the role {string}', async ({ jobDetailsPage }, role: string) => {
