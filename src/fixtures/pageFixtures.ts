@@ -5,6 +5,13 @@ import { BenefitsPage } from '../pages/BenefitsPage';
 import { ReviewPage } from '../pages/ReviewPage';
 import { WindowManager } from '../utils/WindowManager';
 import { FrameManager } from '../utils/FrameManager';
+import { LoginPage } from '../pages/Login';
+import { RequesterPage } from '../pages/Requester';
+import { CaseDetailsPage } from '../pages/CaseDetails';
+import { TimesheetPage } from '../pages/Timesheet';
+import { CaseReviewPage } from '../pages/CaseReviewPage';
+import { AdminDashboardPage } from '../pages/AdminDashboardPage';
+import { AdminApprovalPage } from '../pages/AdminApproval';
 
 /**
  * Extends playwright-bdd's `test` (itself a superset of @playwright/test's
@@ -20,6 +27,14 @@ type Pages = {
   reviewPage: ReviewPage;
   windowManager: WindowManager;
   frameManager: FrameManager;
+  loginPage: LoginPage;
+  requesterPage: RequesterPage;
+  caseDetailsPage: CaseDetailsPage;
+  timesheetPage: TimesheetPage;
+  caseReviewPage: CaseReviewPage;
+  adminDashboardPage: AdminDashboardPage;
+  adminApprovalPage: AdminApprovalPage;
+  caseProState: { caseId: string };
 };
 
 export const test = base.extend<Pages>({
@@ -40,6 +55,30 @@ export const test = base.extend<Pages>({
   },
   frameManager: async ({}, use) => {
     await use(new FrameManager());
+  },
+  loginPage: async ({ page }, use) => {
+    await use(new LoginPage(page));
+  },
+  requesterPage: async ({ page }, use) => {
+    await use(new RequesterPage(page));
+  },
+  caseDetailsPage: async ({ page }, use) => {
+    await use(new CaseDetailsPage(page));
+  },
+  timesheetPage: async ({ page }, use) => {
+    await use(new TimesheetPage(page));
+  },
+  caseReviewPage: async ({ page }, use) => {
+    await use(new CaseReviewPage(page));
+  },
+  adminDashboardPage: async ({ page }, use) => {
+    await use(new AdminDashboardPage(page));
+  },
+  adminApprovalPage: async ({ page }, use) => {
+    await use(new AdminApprovalPage(page));
+  },
+  caseProState: async ({}, use) => {
+    await use({ caseId: '' });
   },
 });
 
