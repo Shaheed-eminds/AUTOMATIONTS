@@ -67,7 +67,7 @@ When('I select the emailAddress {string}', async ({ requesterDetailsPage }, emai
   await requesterDetailsPage.fillEmailAddress(email);
 });
 
-When('I select the departmentaldetails {string}', async ({ requesterDetailsPage }, department: string) => {
+When('I select the depdetails {string}', async ({ requesterDetailsPage }, department: string) => {
     // Click the dropdown
     //await requesterDetailsPage.click('select[name="department"]');
     // Select the option
